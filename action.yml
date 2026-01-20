@@ -1,0 +1,58 @@
+name: 'Push Monorepo Folder'
+description: 'Pushes changes from a monorepo folder to a dedicated repository using git subtree split'
+author: 'Twiper'
+
+inputs:
+  folder:
+    description: 'Folder name to sync (e.g., "api.twiper")'
+    required: true
+  repository:
+    description: 'Target repository name (e.g., "api.twiper")'
+    required: true
+  branch:
+    description: 'Branch name to push to (e.g., "main", "staging")'
+    required: true
+  organization:
+    description: 'GitHub organization name (e.g., "Twiper-app")'
+    required: true
+  token:
+    description: 'GitHub authentication token with push access'
+    required: true
+  user-name:
+    description: 'Git committer name'
+    required: true
+  user-email:
+    description: 'Git committer email'
+    required: true
+  base-ref:
+    description: 'Base branch for comparison (used for pull requests)'
+    required: false
+    default: ''
+
+outputs:
+  pushed:
+    description: 'Boolean indicating if push occurred ("true" or "false")'
+    value: ${{ steps.push.outputs.pushed }}
+  skipped:
+    description: 'Boolean indicating if skipped due to no changes ("true" or "false")'
+    value: ${{ steps.push.outputs.skipped }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Execute push script
+      id: push
+      shell: bash
+      run: |
+        ${{ github.action_path }}/push.sh \
+          "${{ inputs.folder }}" \
+          "${{ inputs.organization }}/${{ inputs.repository }}" \
+          "${{ inputs.branch }}" \
+          "${{ inputs.token }}" \
+          "${{ inputs.user-name }}" \
+          "${{ inputs.user-email }}" \
+          "${{ inputs.base-ref }}"
+
+branding:
+  icon: 'git-branch'
+  color: 'blue'
