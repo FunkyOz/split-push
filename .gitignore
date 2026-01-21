@@ -1,0 +1,201 @@
+# ============================================================================
+# Push Monorepo Folder - .gitignore
+# ============================================================================
+
+# ============================================================================
+# Test Dependencies (BATS support libraries)
+# ============================================================================
+test_helper/bats-support/
+test_helper/bats-assert/
+test_helper/bats-file/
+
+# ============================================================================
+# Test Artifacts
+# ============================================================================
+*.bats.tmp
+*.bats.lock
+tests/**/*.tmp
+tests/**/*.log
+.bats-output/
+bats-*.xml
+
+# ============================================================================
+# Temporary Files
+# ============================================================================
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.*.swp
+.*.swo
+
+# ============================================================================
+# Git Temporary Files
+# ============================================================================
+*.orig
+*.rej
+*.patch
+
+# ============================================================================
+# IDE and Editor Files
+# ============================================================================
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# IntelliJ IDEA / WebStorm / PhpStorm
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+Session.vim
+Sessionx.vim
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# ============================================================================
+# OS Files
+# ============================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+.directory
+.Trash-*
+.nfs*
+
+# ============================================================================
+# Logs and Debugging
+# ============================================================================
+*.log
+logs/
+debug.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ============================================================================
+# Environment and Secrets
+# ============================================================================
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+*.crt
+*.p12
+secrets/
+credentials/
+
+# ============================================================================
+# Build and Distribution
+# ============================================================================
+dist/
+build/
+out/
+target/
+
+# ============================================================================
+# Package Manager
+# ============================================================================
+node_modules/
+npm-debug.log*
+yarn.lock
+package-lock.json
+
+# ============================================================================
+# Coverage and Test Reports
+# ============================================================================
+coverage/
+.nyc_output/
+*.cover
+*.coverage
+.hypothesis/
+.pytest_cache/
+htmlcov/
+
+# ============================================================================
+# Backup Files
+# ============================================================================
+*.bak
+*.backup
+*.old
+*_backup
+*_old
+
+# ============================================================================
+# Project Specific
+# ============================================================================
+
+# Local test repositories (created during integration tests)
+/tmp/
+/test-repos/
+
+# GitHub token files (if any)
+github_token.txt
+.github-token
+
+# Local configuration
+local.config
+.localrc
+
+# shellcheck cache
+.shellcheck/
+
+# ============================================================================
+# Don't Ignore
+# ============================================================================
+!.github/
+!.gitignore
+!.gitattributes

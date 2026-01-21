@@ -1,31 +1,24 @@
 name: 'Push Monorepo Folder'
 description: 'Pushes changes from a monorepo folder to a dedicated repository using git subtree split'
-author: 'Twiper'
+author: 'Lorenzo Dessimoni'
 
 inputs:
-  folder:
-    description: 'Folder name to sync (e.g., "api.twiper")'
+  local:
+    description: 'Local folder path to sync'
     required: true
-  repository:
-    description: 'Target repository name (e.g., "api.twiper")'
+  remote:
+    description: 'Target repository URL (HTTPS or SSH format)'
     required: true
   branch:
-    description: 'Branch name to push to (e.g., "main", "staging")'
-    required: true
-  organization:
-    description: 'GitHub organization name (e.g., "Twiper-app")'
-    required: true
+    description: 'Branch name to push to (auto-detected if not provided)'
+    required: false
+    default: ''
   token:
     description: 'GitHub authentication token with push access'
-    required: true
-  user-name:
-    description: 'Git committer name'
-    required: true
-  user-email:
-    description: 'Git committer email'
-    required: true
-  base-ref:
-    description: 'Base branch for comparison (used for pull requests)'
+    required: false
+    default: ''
+  author:
+    description: 'Git author in format "Name <email>" (uses git config if not provided)'
     required: false
     default: ''
 
@@ -44,14 +37,21 @@ runs:
       id: push
       shell: bash
       run: |
-        ${{ github.action_path }}/push.sh \
-          "${{ inputs.folder }}" \
-          "${{ inputs.organization }}/${{ inputs.repository }}" \
-          "${{ inputs.branch }}" \
-          "${{ inputs.token }}" \
-          "${{ inputs.user-name }}" \
-          "${{ inputs.user-email }}" \
-          "${{ inputs.base-ref }}"
+        ARGS=("${{ github.action_path }}/scripts/push.sh" "${{ inputs.local }}" "${{ inputs.remote }}")
+
+        if [[ -n "${{ inputs.branch }}" ]]; then
+          ARGS+=("--branch" "${{ inputs.branch }}")
+        fi
+
+        if [[ -n "${{ inputs.token }}" ]]; then
+          ARGS+=("--token" "${{ inputs.token }}")
+        fi
+
+        if [[ -n "${{ inputs.author }}" ]]; then
+          ARGS+=("--author" "${{ inputs.author }}")
+        fi
+
+        "${ARGS[@]}"
 
 branding:
   icon: 'git-branch'

@@ -1,0 +1,80 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install BATS
+        run: |
+          sudo npm install -g bats
+
+      - name: Install BATS support libraries
+        run: |
+          mkdir -p test_helper
+          git clone --depth 1 https://github.com/bats-core/bats-support.git test_helper/bats-support
+          git clone --depth 1 https://github.com/bats-core/bats-assert.git test_helper/bats-assert
+
+      - name: Run unit tests
+        run: bats tests/unit/*.bats
+
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required for git operations
+
+      - name: Install BATS
+        run: |
+          sudo npm install -g bats
+
+      - name: Install BATS support libraries
+        run: |
+          mkdir -p test_helper
+          git clone --depth 1 https://github.com/bats-core/bats-support.git test_helper/bats-support
+          git clone --depth 1 https://github.com/bats-core/bats-assert.git test_helper/bats-assert
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "Test User"
+          git config --global user.email "test@example.com"
+
+      - name: Run integration tests
+        run: bats tests/integration/*.bats
+
+  lint:
+    name: Shellcheck Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: Run shellcheck on scripts
+        run: |
+          shellcheck scripts/push.sh
+          shellcheck scripts/lib/detect-changes.sh
+          shellcheck tests/run-tests.sh
+
+  all-tests:
+    name: All Tests Passed
+    runs-on: ubuntu-latest
+    needs: [unit-tests, integration-tests, lint]
+    steps:
+      - name: Summary
+        run: echo "All tests passed successfully!"
