@@ -1,4 +1,4 @@
-# Push Monorepo Folder
+# Split and push from a Monorepo to dedicated repositories
 
 A GitHub Action and standalone CLI tool that intelligently syncs monorepo folders to dedicated repositories using git subtree split. This tool detects changes in specific folders and pushes only when changes are detected, preserving complete git history.
 
