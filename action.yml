@@ -1,4 +1,4 @@
-name: 'Push Monorepo Folder'
+name: 'Split and Push Monorepo'
 description: 'Pushes changes from a monorepo folder to a dedicated repository using git subtree split'
 author: 'Lorenzo Dessimoni'
 
