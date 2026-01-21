@@ -6,7 +6,9 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Source library functions
+# shellcheck source=scripts/lib/logging.sh
 source "${SCRIPT_DIR}/lib/logging.sh"
+# shellcheck source=scripts/lib/detect-changes.sh
 source "${SCRIPT_DIR}/lib/detect-changes.sh"
 
 # Display help message

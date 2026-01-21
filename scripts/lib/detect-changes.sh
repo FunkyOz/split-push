@@ -25,6 +25,7 @@ set -euo pipefail
 LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Source dependencies
+# shellcheck source=scripts/lib/logging.sh
 source "${LIB_DIR}/logging.sh"
 
 detect_branch() {

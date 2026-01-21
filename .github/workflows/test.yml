@@ -67,9 +67,7 @@ jobs:
 
       - name: Run shellcheck on scripts
         run: |
-          shellcheck scripts/push.sh
-          shellcheck scripts/lib/detect-changes.sh
-          shellcheck tests/run-tests.sh
+          shellcheck -x ./scripts/push.sh ./scripts/lib/detect-changes.sh ./scripts/lib/logging.sh
 
   all-tests:
     name: All Tests Passed

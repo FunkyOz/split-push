@@ -28,6 +28,9 @@ setup() {
     # Create target repository (bare)
     git init --bare "${TARGET_REPO}" > /dev/null 2>&1
 
+    # Set default branch to main for proper cloning later
+    git -C "${TARGET_REPO}" symbolic-ref HEAD refs/heads/main
+
     # Create folder structure
     mkdir -p packages/frontend
     mkdir -p packages/backend
@@ -95,8 +98,16 @@ teardown() {
 
     # Verify target repo has only frontend files
     cd "${TEST_TEMP_DIR}"
-    git clone "${TARGET_REPO}" verify > /dev/null 2>&1
-    cd verify
+
+    # Clone with error checking
+    run git clone "${TARGET_REPO}" verify
+    [[ "$status" -eq 0 ]] || {
+        echo "Clone failed with status $status"
+        echo "Output: $output"
+        return 1
+    }
+
+    cd verify || { echo "Directory verify not created"; return 1; }
 
     # Should have frontend files
     [[ -f "README.md" ]]
@@ -325,8 +336,16 @@ teardown() {
 
     # Verify target repo structure
     cd "${TEST_TEMP_DIR}"
-    git clone "${TARGET_REPO}" verify-nested > /dev/null 2>&1
-    cd verify-nested
+
+    # Clone with error checking
+    run git clone "${TARGET_REPO}" verify-nested
+    [[ "$status" -eq 0 ]] || {
+        echo "Clone failed with status $status"
+        echo "Output: $output"
+        return 1
+    }
+
+    cd verify-nested || { echo "Directory verify-nested not created"; return 1; }
 
     # Should have nested files at root level
     [[ -f "src/components/Button.tsx" ]]
