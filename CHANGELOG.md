@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-01-27
+
+### Changed
+
+#### Documentation Overhaul
+- **Streamlined README** from 1,284 lines to 343 lines (~73% reduction)
+  - Removed verbose sections: Performance, Reusability, Comparison with Alternatives, Roadmap, Limitations, full Example Workflows, Support, Acknowledgments, Features list, Table of Contents
+  - Kept focused sections: Quick Start, Inputs/Outputs, Usage Examples, How It Works, Requirements, Error Handling, Security, Troubleshooting
+- **Created CONTRIBUTING.md** with development documentation extracted from README
+  - Project structure, test setup and running instructions
+  - Code quality checks (shellcheck, actionlint)
+  - Local testing guide and development workflow
+  - Issue reporting guidelines
+
+#### Accuracy Fixes
+- **Updated action references** from local path (`./.github/actions/push-monorepo`) to published action (`FunkyOz/split-push@v1`) across all examples
+- **Corrected branch detection priority order** to match actual `detect_branch()` implementation:
+  1. `--branch` parameter
+  2. `GITHUB_REF` tag detection
+  3. `GITHUB_HEAD_REF` (pull requests)
+  4. `GITHUB_REF` branch extraction (push events)
+  5. Remote default branch (fallback)
+- **Fixed push.sh line count** from "370+" to "450+" (actual: 457 lines)
+
+---
+
 ## [1.0.0] - 2025-01-21
 
 ### Added
@@ -164,4 +190,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+[1.1.0]: https://github.com/FunkyOz/split-push/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/FunkyOz/split-push/releases/tag/v1.0.0
